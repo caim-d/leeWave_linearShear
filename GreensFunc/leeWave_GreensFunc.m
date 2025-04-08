@@ -159,13 +159,13 @@ q = v_x + f/N^2*b_z - f*Lam/N^2*(u_z - w_x);
 
 % get wave properties
 % Lagrangian pseudomomentum
-pmomL1 = -xi_x.*(u - f/2*eta) - eta_x.*(v + f/2*xi) - zeta_x.*w;
+pmomL1 = -xi_x.*(u + Lam*zeta - f/2*eta) - eta_x.*(v + f/2*xi) - zeta_x.*w;
 
 % Lagrangian pseudomomentum fluxes
 FL1 = (U0 + Lam*zplot).*pmomL1 + 1/2*(u.^2 + v.^2 + w.^2 - N^2*zeta.^2) ...
                                + f/2*(Lam*eta.*zeta + v.*xi - u.*eta) ...
-                               + Lam*u.*zeta - xi_x.*phi;
-FL3 = Lam*w.*zeta - zeta_x.*phi;
+                               + Lam*u.*zeta - xi_x.*phi + Lam^2/2*zeta.^2;
+FL3 = - zeta_x.*phi;
 
 % Eulerian pseudomomentum
 pmomE1 = 1/N^2*b.*(u_z - w_x);
@@ -176,6 +176,11 @@ FE3 = u.*w - f*v.*b/N^2;
 
 % wave energy density
 E = 1/2*(u.^2 + v.^2 + w.^2 + b.^2/N^2);
+
+% linear PV
+q = v_x + f/N^2*b_z - f*Lam/N^2*(u_z - w_x);
+
+Fr = sqrt(u_z.^2 + v_z.^2)/N;
 
 %%
 figure;
